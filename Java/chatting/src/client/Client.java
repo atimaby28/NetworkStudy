@@ -11,7 +11,7 @@ import static util.SocketCloseUtil.closeAll;
 public class Client {
 
     private final String host;
-    private final int prot;
+    private final int port;
 
     private Socket socket;
     private DataInputStream inputStream;
@@ -22,15 +22,15 @@ public class Client {
     private boolean closed = false;
 
 
-    public Client(String host, int prot) {
+    public Client(String host, int port) {
         this.host = host;
-        this.prot = prot;
+        this.port = port;
     }
 
     public void start() throws IOException {
         log("클라이언트 시작...");
 
-        socket = new Socket(host, prot);
+        socket = new Socket(host, port);
         inputStream = new DataInputStream(socket.getInputStream());
         outputStream = new DataOutputStream(socket.getOutputStream());
 

@@ -25,7 +25,7 @@ public class ReadHandler implements Runnable {
                 System.out.println(received);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log(e);
         } finally {
             client.close();
         }

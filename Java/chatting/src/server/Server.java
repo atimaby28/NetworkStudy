@@ -33,26 +33,11 @@ public class Server {
         Runtime.getRuntime().addShutdownHook(new Thread(target, "Shutdown"));
     }
 
-    private void running() {
-        try {
-            while (true) {
-                Socket socket = serverSocket.accept(); // 블로킹
-                log("소켓 연결: " + socket);
-
-                Session session = new Session(socket, commandManager, sessionManager);
-                Thread thread = new Thread(session);
-                thread.start();
-            }
-        } catch (IOException e) {
-            log("서버 소캣 종료: " + e);
-        }
-    }
-
     static class ShutdownHook implements Runnable {
 
         private final ServerSocket serverSocket;
-        private final SessionManager sessionManager;
 
+        private final SessionManager sessionManager;
         public ShutdownHook(ServerSocket serverSocket, SessionManager sessionManager) {
             this.serverSocket = serverSocket;
             this.sessionManager = sessionManager;
@@ -70,6 +55,22 @@ public class Server {
                 e.printStackTrace();
                 System.out.println("e = " + e);
             }
+        }
+
+    }
+
+    private void running() {
+        try {
+            while (true) {
+                Socket socket = serverSocket.accept(); // 블로킹
+                log("소켓 연결: " + socket);
+
+                Session session = new Session(socket, commandManager, sessionManager);
+                Thread thread = new Thread(session);
+                thread.start();
+            }
+        } catch (IOException e) {
+            log("서버 소캣 종료: " + e);
         }
     }
 }
