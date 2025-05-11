@@ -7,28 +7,27 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static java.nio.charset.StandardCharsets.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static util.MyLogger.log;
 
-public class HttpServerV1 {
+public class HttpRequestHandler implements Runnable {
 
-    private final int port;
+    private final Socket socket;
 
-    public HttpServerV1(int port) {
-        this.port = port;
+    public HttpRequestHandler(Socket socket) {
+        this.socket = socket;
     }
 
-    public void start() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(port);
-        log("서버 시작 port : " + port);
-
-        while (true) {
-            Socket socket = serverSocket.accept();
-            process(socket);
+    @Override
+    public void run() {
+        try {
+            process();
+        } catch (Exception e) {
+            log(e);
         }
     }
 
-    private void process(Socket socket) throws IOException {
+    private void process() throws IOException {
         try (socket;
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
              PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, UTF_8)) {
@@ -46,7 +45,6 @@ public class HttpServerV1 {
             responseToClient(printWriter);
             log("HTTP 응답 전달 완료");
         }
-
     }
 
     private String requestToString(BufferedReader bufferedReader) throws IOException {
@@ -89,5 +87,4 @@ public class HttpServerV1 {
             throw new RuntimeException(e);
         }
     }
-
 }
