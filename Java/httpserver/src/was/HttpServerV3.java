@@ -8,12 +8,12 @@ import java.util.concurrent.Executors;
 
 import static util.MyLogger.log;
 
-public class HttpServerV2 {
+public class HttpServerV4 {
 
     private final int port;
     private final ExecutorService es = Executors.newFixedThreadPool(10);
 
-    public HttpServerV2(int port) {
+    public HttpServerV4(int port) {
         this.port = port;
     }
 
