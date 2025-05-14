@@ -24,4 +24,12 @@ public class SiteControllerV2 {
     public void site2(HttpResponse response) {
         response.writeBody("<h1>site2</h1>");
     }
+
+    // 중복 체크 확인용
+/*
+    @Mapping("/site2")
+    public void page2(HttpResponse response) {
+        response.writeBody("<h1>page2</h1>");
+    }
+*/
 }
