@@ -1,10 +1,10 @@
-import was.controller.v1.SearchControllerV1;
-import was.controller.v1.SiteControllerV1;
+import was.controller.v2.SearchControllerV2;
+import was.controller.v2.SiteControllerV2;
 import was.httpserver.HttpServer;
 import was.httpserver.HttpServlet;
 import was.httpserver.ServletManager;
 import was.httpserver.servlet.DiscardServlet;
-import was.httpserver.servlet.annotation.AnnotationServletV1;
+import was.httpserver.servlet.annotation.AnnotationServletV2;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +14,8 @@ public class ServerMain {
     private static final int PORT = 12345;
 
     public static void main(String[] args) throws IOException {
-        List<Object> controllers = List.of(new SiteControllerV1(), new SearchControllerV1());
-        HttpServlet annotationServlet = new AnnotationServletV1(controllers);
+        List<Object> controllers = List.of(new SiteControllerV2(), new SearchControllerV2());
+        HttpServlet annotationServlet = new AnnotationServletV2(controllers);
 
         ServletManager servletManager = new ServletManager();
         servletManager.setDefaultServlet(annotationServlet);
