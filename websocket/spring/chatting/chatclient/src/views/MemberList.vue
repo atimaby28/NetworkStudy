@@ -21,6 +21,9 @@
                                     <td>{{member.id}}</td>
                                     <td>{{member.name}}</td>
                                     <td>{{member.email}}</td>
+                                    <td>
+                                        <v-btn color="primary" @click="startChat(member.id)">채팅하기</v-btn>
+                                    </td>
                                 </tr>
                             </tbody>
                         </v-table>
