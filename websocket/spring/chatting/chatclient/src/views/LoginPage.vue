@@ -47,9 +47,11 @@ export default{
             const token = response.data.token;
             const role = jwtDecode(token).role;
             const email = jwtDecode(token).sub;
+
             localStorage.setItem("token", token);
             localStorage.setItem("role", role);
             localStorage.setItem("email", email);
+            
             window.location.href="/";
         }
     }
