@@ -11,7 +11,7 @@
                             <div 
                              v-for="(msg, index) in messages"
                              :key="index"
-                             :class="['chat-message', msg.senderEmail === this.senderEmail ? 'sent' : 'received' ]"
+                             :class="['chat-message', msg.senderEmail ===this.senderEmail ? 'sent' : 'received' ]"
                             >
                                 <strong>{{ msg.senderEmail }}: </strong> {{ msg.message }}
                             </div>
@@ -71,30 +71,26 @@ export default{
             const sockJs = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/connect`)
             this.stompClient = Stomp.over(sockJs);
             this.token = localStorage.getItem("token");
-
             this.stompClient.connect({
                 Authorization: `Bearer ${this.token}`
             },
-                () => {
+                ()=>{
                     this.stompClient.subscribe(`/topic/${this.roomId}`, (message) => {
                         const parseMessage = JSON.parse(message.body);
                         this.messages.push(parseMessage);
                         this.scrollToBottom();
-                    }, {Authorization: `Bearer ${this.token}`})
+                    },{Authorization: `Bearer ${this.token}`})
                 }
             )
-
         },
         sendMessage(){
-            if(this.newMessage.trim() === "") return;
-
+            if(this.newMessage.trim() === "")return;
             const message = {
                 senderEmail: this.senderEmail,
                 message: this.newMessage
             }
-
             this.stompClient.send(`/publish/${this.roomId}`, JSON.stringify(message));
-            this.newMessage = "";
+            this.newMessage = ""
         },
         scrollToBottom(){
             this.$nextTick(()=>{
@@ -102,12 +98,14 @@ export default{
                 chatBox.scrollTop = chatBox.scrollHeight;
             })
         },
-        disconnectWebSocket(){
+        async disconnectWebSocket(){
+            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/chat/room/${this.roomId}/read`);
             if(this.stompClient && this.stompClient.connected){
                 this.stompClient.unsubscribe(`/topic/${this.roomId}`);
                 this.stompClient.disconnect();
             }
-        }
+        },
+        
     },
 }
 </script>

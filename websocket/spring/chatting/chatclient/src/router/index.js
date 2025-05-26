@@ -6,6 +6,7 @@ import MemberList from "@/views/MemberList.vue"
 import SimpleWebsocket from "@/views/SimpleWebSocket.vue"
 import StompChatPage from "@/views/StompChatPage.vue"
 import GroupChatList from "@/views/GroupChatList.vue"
+import MyChatPage from "@/views/MyChatPage.vue"
 
 const routes = [ 
     {
@@ -37,6 +38,11 @@ const routes = [
         path:'/chatpage/:roomId',
         name: 'StompChatPage',
         component: StompChatPage
+    },
+        {
+        path:'/my/chat/page',
+        name: 'MyChatPage',
+        component: MyChatPage
     }
 ]
 
