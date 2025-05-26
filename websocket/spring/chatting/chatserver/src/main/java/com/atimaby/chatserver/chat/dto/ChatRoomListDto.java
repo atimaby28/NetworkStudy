@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessageDto {
-    private String message;
-    private String senderEmail;
+@NoArgsConstructor
+public class ChatRoomListDto {
+    private Long roomId;
+    private String roomName;
 }

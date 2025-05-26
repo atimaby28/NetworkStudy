@@ -1,6 +1,7 @@
 package com.atimaby.chatserver.chat.controller;
 
 import com.atimaby.chatserver.chat.dto.ChatMessageDto;
+import com.atimaby.chatserver.chat.service.ChatService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Controller;
 public class StompController {
 
     private final SimpMessageSendingOperations messageTemplate;
+    private final ChatService chatService;
 
-    public StompController(SimpMessageSendingOperations messageTemplate) {
+    public StompController(SimpMessageSendingOperations messageTemplate, ChatService chatService) {
         this.messageTemplate = messageTemplate;
+        this.chatService = chatService;
     }
 
     /*
@@ -33,8 +36,8 @@ public class StompController {
     // 방법2.MessageMapping어노테이션만 활용.
     @MessageMapping("/{roomId}")
     public void sendMessage(@DestinationVariable Long roomId, ChatMessageDto chatMessageDto) throws JsonProcessingException {
-//        System.out.println(chatMessageDto.getMessage());
-//        chatService.saveMessage(roomId, chatMessageDto);
+        System.out.println(chatMessageDto.getMessage());
+        chatService.saveMessage(roomId, chatMessageDto);
 //        chatMessageDto.setRoomId(roomId);
          messageTemplate.convertAndSend("/topic/"+roomId, chatMessageDto);
 //        ObjectMapper objectMapper = new ObjectMapper();
